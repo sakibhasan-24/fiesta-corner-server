@@ -41,6 +41,20 @@ async function serverConnection() {
       const result = await foodItemsCollections.findOne(query);
       res.send(result);
     });
+    // read types based on type
+    app.get("/getFood/:foodType", async (req, res) => {
+      //   console.log(req.params.foodTypes);
+      const query = { foodType: req.params.foodType };
+      const result = await foodItemsCollections.find(query).toArray();
+      res.send(result);
+    });
+    app.delete("/food/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const deletedFood = await foodItemsCollections.deleteOne(filter);
+      console.log(deletedFood);
+      res.send(deletedFood);
+    });
     // update
     app.put("/food-items/edit/:id", async (req, res) => {
       const id = req.params.id;
