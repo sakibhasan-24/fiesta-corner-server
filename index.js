@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -31,6 +31,14 @@ async function serverConnection() {
     app.get("/food-items", async (req, res) => {
       const query = {};
       const result = await foodItemsCollections.find(query).toArray();
+      res.send(result);
+    });
+    // read single items
+    app.get("/food-items/:id", async (req, res) => {
+      const id = req.params.id;
+      //   console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await foodItemsCollections.findOne(query);
       res.send(result);
     });
   } finally {
