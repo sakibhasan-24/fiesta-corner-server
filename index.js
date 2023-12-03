@@ -41,6 +41,36 @@ async function serverConnection() {
       const result = await foodItemsCollections.findOne(query);
       res.send(result);
     });
+    // update
+    app.put("/food-items/edit/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedFood = req.body;
+      console.log(updatedFood);
+      //   res.send(updatedFood);
+      const food = {
+        $set: {
+          foodName: updatedFood.foodName,
+          foodPrice: updatedFood.foodPrice,
+          foodDescription: updatedFood.foodDescription,
+          foodImage: updatedFood.foodImage,
+          foodRating: updatedFood.foodRating,
+        },
+      };
+      try {
+        const result = await foodItemsCollections.updateOne(
+          filter,
+          food,
+          options
+        );
+        res.send(result);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
   } finally {
   }
 }
