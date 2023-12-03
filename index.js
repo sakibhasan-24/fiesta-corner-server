@@ -5,7 +5,7 @@ const app = express();
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@food.wlfdec9.mongodb.net/?retryWrites=true&w=majority`;
 console.log(uri);
@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
 async function serverConnection() {
   const foodItemsCollections = client.db("food-items").collection("food-list");
   try {
-    await client.connect();
+    client.connect();
     // create Food
     app.post("/food-items", async (req, res) => {
       const foodData = req.body;
