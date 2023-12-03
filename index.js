@@ -28,6 +28,11 @@ async function serverConnection() {
       const result = await foodItemsCollections.insertOne(foodData);
       res.send(result);
     });
+    app.get("/food-items", async (req, res) => {
+      const query = {};
+      const result = await foodItemsCollections.find(query).toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
