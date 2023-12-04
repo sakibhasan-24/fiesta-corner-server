@@ -5,7 +5,14 @@ const app = express();
 const cors = require("cors");
 
 const port = process.env.PORT || 5000;
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
+    credentials: true,
+    exposedHeaders: ["Authorization"],
+  })
+);
 app.use(express.json());
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@food.wlfdec9.mongodb.net/?retryWrites=true&w=majority`;
 console.log(uri);
