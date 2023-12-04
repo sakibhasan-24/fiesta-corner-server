@@ -3,10 +3,10 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
+
+const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
-const port = process.env.PORT || 5000;
-
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@food.wlfdec9.mongodb.net/?retryWrites=true&w=majority`;
 console.log(uri);
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
 async function serverConnection() {
   const foodItemsCollections = client.db("food-items").collection("food-list");
   try {
-    client.connect();
+    await client.connect();
     // create Food
     app.post("/food-items", async (req, res) => {
       const foodData = req.body;
@@ -90,6 +90,6 @@ async function serverConnection() {
 }
 serverConnection().catch((err) => console.log(err));
 
-app.get("/", (req, res) => res.send("Hello World!"));
+app.get("/", (req, res) => res.send("server is running!"));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 //
