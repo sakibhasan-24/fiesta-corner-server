@@ -7,7 +7,7 @@ const cors = require("cors");
 const port = process.env.PORT || 5000;
 app.use(
   cors({
-    origin: "https://fiesta-corner.web.app",
+    origin: ["https://fiesta-corner.web.app", "http://localhost:5173"],
     methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
     credentials: true,
     exposedHeaders: ["Authorization"],
